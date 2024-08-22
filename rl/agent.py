@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 
-class Agent:
+class Agent:  # MARK: Agent
     """A generic agent."""
 
     @abstractmethod

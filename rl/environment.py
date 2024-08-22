@@ -4,19 +4,24 @@ from .agent import Agent
 from .bot import Bot
 
 
-class Environment:
+class Environment:  # MARK: Environment
+    """The environment that hosts RL agents."""
+
     def __init__[S](self, starting_state: S):
         self.starting_state = starting_state
 
     @abstractmethod
     def get_valid_states[S](self, current_state: S, agent: Agent) -> list[S]:
+        """Gets valid next states for the given agent."""
         pass
 
     @abstractmethod
     def evaluate_state[S](self, state: S) -> int | None:
+        """Checks for winners/ties."""
         pass
 
     def game(self, agents: list[Agent], reward=False):
+        """Plays a single game between the agents. `reward` trains the bot agents if `True`."""
         state = self.starting_state
 
         agent_turn = 0

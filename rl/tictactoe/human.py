@@ -1,7 +1,7 @@
 from ..agent import Agent
 
 
-class Human(Agent):
+class Human(Agent):  # MARK: Human
     """
     An agent that allows the user to select its moves.
     """

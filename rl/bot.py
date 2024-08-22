@@ -5,8 +5,11 @@ import random
 from .agent import Agent
 
 
-class Bot(Agent):
-    """A reinforcement learning agent."""
+class Bot(Agent):  # MARK: Bot
+    """
+    A reinforcement learning agent. Set `epsilon` to `0` to turn off
+    randomness.
+    """
 
     def __init__[O](
         self,
@@ -25,10 +28,15 @@ class Bot(Agent):
         self.states = []
 
     @abstractmethod
-    def hash_state[S](self, state: S) -> int:
+    def hash_state[S](self, state: S) -> int | str:
+        """
+        Turns the state into a simpler data type. `str` is there
+        because of JSON turning my integers into strings.
+        """
         pass
 
     def distribute_reward[O](self, outcome: O):
+        """Trains the network using a generic RL algorithm."""
         reward = self.rewards[outcome]
         self.epsilon *= reward[1]
         reward = reward[0]
@@ -45,6 +53,11 @@ class Bot(Agent):
         current_state: S,
         valid_action_states: list[S]
     ) -> S:  # fmt: skip
+        # Sometimes the Black formatter is great. Sometimes it's not.
+        """
+        Generates a move for the bot given its valid moves.
+        May be random depending on the `self.epsilon`.
+        """
         random.seed()
 
         if random.random() < self.epsilon:

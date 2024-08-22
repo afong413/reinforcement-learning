@@ -6,13 +6,16 @@ from .tictactoebot import TicTacToeBot
 from .human import Human
 
 
-class TicTacToeEnv(Environment):
+class TicTacToeEnv(Environment):  # MARK: TicTacToeEnv
+    """An environment designed for TicTacToe."""
+
     def __init__(self):
         self.starting_state = [None] * 9
 
     def get_valid_states(
         self, current_state: list[str], agent: TicTacToeBot | Human
     ) -> list[list[str]]:
+        """Gets valid states for given agent using their `symbol`."""
         valid_states = []
 
         for i in range(9):
@@ -24,6 +27,7 @@ class TicTacToeEnv(Environment):
         return valid_states
 
     def evaluate_state(self, state: list[str]) -> str | bool:
+        """Checks for winners or if there's a tie."""
         winning_methods = [
             (0, 1, 2),
             (3, 4, 5),
@@ -50,6 +54,9 @@ class TicTacToeEnv(Environment):
         return False
 
     def display_state(self, state, symbols):
+        """
+        Uses `termcolor` to make the board look fancy on the console.
+        """
         for i in range(3):
             for j in range(3):
                 if state[3 * i + j] == symbols[0]:
@@ -77,6 +84,11 @@ class TicTacToeEnv(Environment):
         reward=False,
         display=True,
     ):
+        """
+        Plays the game! Once again this is basically`Environment.game`,
+        except this one prints a whole bunch of stuff to the console.
+        (That is when `display!=False`!)
+        """
         agents = [agent1, agent2]
 
         state = self.starting_state
@@ -85,21 +97,27 @@ class TicTacToeEnv(Environment):
 
         outcome = self.evaluate_state(state)
 
+        # Empty board
+
         if display:
             print()
             self.display_state(state, [agents[0].symbol, agents[1].symbol])
             print()
 
-        while outcome is True:
+        while outcome is True:  # While game still going
+            # Get possible moves
             valid_states = self.get_valid_states(state, agents[agent_turn])
 
             if display:
                 print(f"{agents[agent_turn].name}'s turn!")
 
+            # Get agent move
             state = agents[agent_turn].get_action(state, valid_states, display)
 
+            # Switch whose turn it is
             agent_turn = not agent_turn
 
+            # Check if the game ended
             outcome = self.evaluate_state(state)
 
             if display:
@@ -116,6 +134,7 @@ class TicTacToeEnv(Environment):
                 print("Its a tie!")
             print()
 
+        # Train the agents
         if reward:
             for agent in agents:
                 if isinstance(agent, Bot):

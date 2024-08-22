@@ -3,7 +3,12 @@ import random
 from ..bot import Bot
 
 
-class TicTacToeBot(Bot):
+class TicTacToeBot(Bot):  # MARK: TicTacToeBot
+    """
+    A bot that only plays Tic-Tac-Toe! (That's why its called
+    `TicTacToeBot`.)
+    """
+
     def __init__(
         self,
         symbol: str,
@@ -18,7 +23,12 @@ class TicTacToeBot(Bot):
 
         super().__init__(epsilon, rewards, decay_gamma, learning_rate)
 
-    def hash_state(self, state: list[str | None]):
+    def hash_state(self, state: list[str | None]) -> str:
+        """
+        Converts a state into an integer by utilizing base-3. But
+        then its converted into a `str` because of JSON that I've
+        ranted enough about elsewhere.
+        """
         hash = 0
 
         for i in range(len(state)):
@@ -35,6 +45,10 @@ class TicTacToeBot(Bot):
         valid_action_states: list[list[str | None]],
         display=True,
     ) -> list[str | None]:
+        """
+        Gets the bot's action. This is exactly the same as
+        `Bot.get_action` except this one prints to the console.
+        """
         random.seed()
 
         if random.random() < self.epsilon:

@@ -6,6 +6,8 @@ from rl.tictactoe import *
 from tqdm import tqdm
 
 if __name__ == "__main__":
+    # MARK: Arguments and Flags
+
     parser = argparse.ArgumentParser("Tic-Tac-Toe")
 
     parser.add_argument(
@@ -33,7 +35,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if args.training:
+    if args.training:  # MARK: Training
         agent1 = TicTacToeBot(
             "X",
             "BOT 1",
@@ -61,13 +63,13 @@ if __name__ == "__main__":
             json.dump(agent1.q_table, f)
             f.close()
 
-    else:
+    else:  # MARK: Playing
         if args.order:
             agent1 = Human("X", "Human")
             agent2 = TicTacToeBot(
                 "O",
                 "Computer",
-                0,
+                0,  # These don't matter when not training
                 {},
                 0,
                 0,
