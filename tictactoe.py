@@ -27,7 +27,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "-f",
         "--file",
-        default="agent.q",
+        default="agent.qtable",
         help="Where to store/load the model Q-tables.",
     )
 
